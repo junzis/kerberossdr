@@ -6,4 +6,3 @@ sudo pkill rtl_daq
 sudo pkill sim
 sudo pkill sync
 sudo pkill gate
-sudo pkill python3
