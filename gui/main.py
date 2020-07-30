@@ -30,6 +30,7 @@ import threading
 import subprocess
 import settings
 
+
 np.seterr(divide="ignore")
 
 # Import Kerberos modules
@@ -372,9 +373,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def pb_rec_reconfig_clicked(self):
         center_freq = self.doubleSpinBox_center_freq.value() * 10 ** 6
-        sample_rate = (
-            float(self.comboBox_sampling_freq.currentText()) * 10 ** 6
-        )  # self.doubleSpinBox_sampling_freq.value()*10**6
+        sample_rate = self.doubleSpinBox_sampling_freq.value() * 10 ** 6
+        # float(self.comboBox_sampling_freq.currentText()) * 10 ** 6
+
         gain = [0, 0, 0, 0]
         if self.checkBox_en_uniform_gain.checkState():
             gain[0] = 10 * float(self.comboBox_gain.currentText())
@@ -421,9 +422,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.comboBox_gain_4.currentText()
             )
 
-        self.module_receiver.fs = (
-            float(self.comboBox_sampling_freq.currentText()) * 10 ** 6
-        )  # self.doubleSpinBox_sampling_freq.value()*10**6
+        self.module_receiver.fs = self.doubleSpinBox_sampling_freq.value() * 10 ** 6
+        # float(self.comboBox_sampling_freq.currentText()) * 10 ** 6
+
         self.module_signal_processor.fs = (
             self.module_receiver.fs / self.module_receiver.decimation_ratio
         )
@@ -980,7 +981,8 @@ def init_settings():
 
     # Receiver Configuration
     center_freq = settings.center_freq
-    samp_index = settings.samp_index
+    sampling_freq = settings.sampling_freq
+    # samp_index = settings.samp_index
     uniform_gain = settings.uniform_gain
     gain_index = settings.gain_index
     gain_index_2 = settings.gain_index_2
@@ -988,7 +990,8 @@ def init_settings():
     gain_index_4 = settings.gain_index_4
 
     form.doubleSpinBox_center_freq.setProperty("value", center_freq)
-    form.comboBox_sampling_freq.setCurrentIndex(int(samp_index))
+    # form.comboBox_sampling_freq.setCurrentIndex(int(samp_index))
+    form.doubleSpinBox_sampling_freq.setProperty("value", sampling_freq)
     form.checkBox_en_uniform_gain.setChecked(True if uniform_gain == "on" else False)
     form.comboBox_gain.setCurrentIndex(int(gain_index))
     form.comboBox_gain_2.setCurrentIndex(int(gain_index))

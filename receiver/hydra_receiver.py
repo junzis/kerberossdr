@@ -139,11 +139,7 @@ class ReceiverRTLSDR:
         # format_string = "B"*read_size
         # while True:
         byte_array_read = sys.stdin.buffer.read(read_size)
-        """
-                if not byte_array_read or len(byte_data) >= read_size:
-                    print("EOF")
-                    break
-            """
+
         overdrive_margin = 0.95
         self.overdrive_detect_flag = False
 
@@ -161,16 +157,6 @@ class ReceiverRTLSDR:
         self.iq_samples -= 1 + 1j
 
         # np.save("hydra_raw.npy",self.iq_samples)
-
-        if self.dump_flag:
-            if len(self.dump_buffer) == 0:
-                self.dump_time = int(time.time())
-
-            self.dump_buffer = np.append(self.dump_buffer, self.iq_samples)
-
-        elif not self.dump_flag and len(self.dump_buffer) > 0:
-            self.dump_buffer.tofile(dump_dir + "raw_{}".format(self.dump_time))
-            self.dump_buffer = np.array([])
 
         self.iq_preprocessing()
         # print("[ DONE] IQ sample read ready")
@@ -207,6 +193,15 @@ class ReceiverRTLSDR:
         # IQ correction
         for m in np.arange(0, self.channel_number):
             self.iq_samples[m, :] *= self.iq_corrections[m]
+
+        # save samples
+        if self.dump_flag:
+            if len(self.dump_buffer) == 0:
+                self.dump_time = int(time.time())
+            self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
+        elif not self.dump_flag and len(self.dump_buffer) > 0:
+            self.dump_buffer.tofile(dump_dir + "raw_{}.npy".format(self.dump_time))
+            self.dump_buffer = np.array([])
 
     def close(self):
         self.gc_fifo_descriptor.write(self.gate_close_byte)

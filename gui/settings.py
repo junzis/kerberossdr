@@ -11,7 +11,8 @@ else:
 
 # Receiver Configuration
 center_freq = settings.get("center_freq", 100.0)
-samp_index = settings.get("samp_index", 2)
+sampling_freq = settings.get("sampling_freq", 1.0)
+# samp_index = settings.get("samp_index", 2)
 uniform_gain = settings.get("uniform_gain", 0)
 gain_index = settings.get("gain_index", 0)
 gain_index_2 = settings.get("gain_index_2", 0)
@@ -58,7 +59,8 @@ def write():
 
     # Configuration
     data["center_freq"] = center_freq
-    data["samp_index"] = samp_index
+    data["sampling_freq"] = sampling_freq
+    # data["samp_index"] = samp_index
     data["uniform_gain"] = uniform_gain
     data["gain_index"] = gain_index
     data["gain_index_2"] = gain_index_2
