@@ -84,7 +84,7 @@ class ReceiverRTLSDR:
         self.decimation_ratio = 1
 
         self.dump_flag = False
-        self.dump_buffer = np.array([])
+        self.dump_buffer = np.empty((self.channel_number, 0))
 
     def set_sample_offsets(self, sample_offsets):
         # print("[ INFO ] Python rec: Setting sample offset")
@@ -196,7 +196,7 @@ class ReceiverRTLSDR:
 
         # save samples
         if self.dump_flag:
-            if len(self.dump_buffer) == 0:
+            if len(self.dump_buffer.shape[1]) == 0:
                 self.dump_time = int(time.time())
             self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
         elif not self.dump_flag and len(self.dump_buffer) > 0:
