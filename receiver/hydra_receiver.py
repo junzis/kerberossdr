@@ -201,7 +201,7 @@ class ReceiverRTLSDR:
             self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
         elif not self.dump_flag and len(self.dump_buffer) > 0:
             self.dump_buffer.tofile(dump_dir + "raw_{}.npy".format(self.dump_time))
-            self.dump_buffer = np.array([[]])
+            self.dump_buffer = np.empty((self.channel_number, 0))
 
     def close(self):
         self.gc_fifo_descriptor.write(self.gate_close_byte)
