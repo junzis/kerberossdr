@@ -158,6 +158,15 @@ class ReceiverRTLSDR:
 
         # np.save("hydra_raw.npy",self.iq_samples)
 
+        # save samples
+        if self.dump_flag:
+            if self.dump_buffer.shape[1] == 0:
+                self.dump_time = int(time.time())
+            self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
+        elif not self.dump_flag and self.dump_buffer.shape[1] > 0:
+            self.dump_buffer.tofile(dump_dir + "raw_{}.npy".format(self.dump_time))
+            self.dump_buffer = np.empty((self.channel_number, 0))
+
         self.iq_preprocessing()
         # print("[ DONE] IQ sample read ready")
 
@@ -193,15 +202,6 @@ class ReceiverRTLSDR:
         # IQ correction
         for m in np.arange(0, self.channel_number):
             self.iq_samples[m, :] *= self.iq_corrections[m]
-
-        # save samples
-        if self.dump_flag:
-            if self.dump_buffer.shape[1] == 0:
-                self.dump_time = int(time.time())
-            self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
-        elif not self.dump_flag and self.dump_buffer.shape[1] > 0:
-            self.dump_buffer.tofile(dump_dir + "raw_{}.npy".format(self.dump_time))
-            self.dump_buffer = np.empty((self.channel_number, 0))
 
     def close(self):
         self.gc_fifo_descriptor.write(self.gate_close_byte)
