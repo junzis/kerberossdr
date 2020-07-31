@@ -84,7 +84,7 @@ class ReceiverRTLSDR:
         self.decimation_ratio = 1
 
         self.dump_flag = False
-        self.dump_buffer = np.empty((self.channel_number, 0))
+        self.dump_buffer = np.empty((self.channel_number, 0), dtype=np.complex64)
 
     def set_sample_offsets(self, sample_offsets):
         # print("[ INFO ] Python rec: Setting sample offset")
@@ -156,7 +156,7 @@ class ReceiverRTLSDR:
         self.iq_samples /= 255 / 2
         self.iq_samples -= 1 + 1j
 
-        # np.save("hydra_raw.npy",self.iq_samples)
+        # np.save("hydra_raw.npy", self.iq_samples)
 
         # save samples
         if self.dump_flag:
@@ -165,7 +165,7 @@ class ReceiverRTLSDR:
             self.dump_buffer = np.append(self.dump_buffer, self.iq_samples, axis=1)
         elif not self.dump_flag and self.dump_buffer.shape[1] > 0:
             self.dump_buffer.tofile(dump_dir + "raw_{}.npy".format(self.dump_time))
-            self.dump_buffer = np.empty((self.channel_number, 0))
+            self.dump_buffer = np.empty((self.channel_number, 0), dtype=np.complex64)
 
         self.iq_preprocessing()
         # print("[ DONE] IQ sample read ready")
