@@ -12,3 +12,4 @@ rtl_sdr_join
 __pycache__
 *.save
 .pyc
+.vscode

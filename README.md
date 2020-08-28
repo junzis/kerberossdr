@@ -1,12 +1,21 @@
 # KerberosSDR Lite
 
 
-This a fork of [rtlsdrblog/kerberossdr](https://github.com/rtlsdrblog/kerberossdr), with web modules removed. It also changes the Qt envrioment from Qt4 to Qt5.
+This a fork of [rtlsdrblog/kerberossdr](https://github.com/rtlsdrblog/kerberossdr).These are some of the significant changes:
+
+- Removed the web related modules. 
+- Changed from Qt4 to Qt5. 
+- Driver from [rtlsdrblog/rtl-sdr-kerberos](https://github.com/rtlsdrblog/rtl-sdr-kerberos) is integrated. (No need to install this customized driver to the system, which had compatibility problems)
+
 
 
 ## Installation
 
-[Optional] deactivate conda environment if enabled:
+## Deactivate `conda` environment 
+
+This is **important** since the `conda` has an encapsulated C complier, C library environment, and python libraries
+
+If is enabled, deactivate use the following command.
 
 ```
 conda deactivate
@@ -23,7 +32,6 @@ cd dirver
 mkdir build
 cd build
 
-export CMAKE_PREFIX_PATH=/usr/include/libusb-1.0/
 cmake ../ -DINSTALL_UDEV_RULES=ON
 make
 
