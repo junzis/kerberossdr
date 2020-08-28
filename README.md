@@ -12,7 +12,34 @@ This a fork of [rtlsdrblog/kerberossdr](https://github.com/rtlsdrblog/kerberossd
 conda deactivate
 ```
 
-Install Dependencies:
+
+### Install driver
+
+```
+sudo apt-get install libusb-1.0-0-dev git cmake
+
+cd dirver
+
+mkdir build
+cd build
+
+export CMAKE_PREFIX_PATH=/usr/include/libusb-1.0/
+cmake ../ -DINSTALL_UDEV_RULES=ON
+make
+
+echo 'blacklist dvb_usb_rtl28xxu' | sudo tee --append /etc/modprobe.d/blacklist-dvb_usb_rtl28xxu.conf
+```
+
+Now go back to the main folder of the kerberossdr-lite.
+
+```
+cd ../../
+```
+
+
+### Install Dependencies for kerberossdr-lite:
+
+
 
 ```
 sudo apt update

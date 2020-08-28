@@ -25,7 +25,7 @@ all: rtl_daq sync gate sim
 	chmod +x run.sh kill.sh simulation/sim.sh
 
 rtl_daq:
-	$(CC) $(CFLAGS) src/rtl_daq.c -lpthread -lrtlsdr -o bin/rtl_daq
+	$(CC) $(CFLAGS) src/rtl_daq.c -lpthread -Ldriver/build/src -lrtlsdr -o bin/rtl_daq
 	chmod a+x bin/rtl_daq
 
 sync:
